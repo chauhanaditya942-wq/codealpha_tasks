@@ -1,0 +1,1001 @@
+/* ===========================================================
+   Design tokens — Warm Espresso + Gold
+   =========================================================== */
+.wrapper {
+  --bg-base: #120d06;
+  --bg-elevated: #1e160a;
+  --surface-glass: rgba(201, 160, 80, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.07);
+  --border-gold: rgba(201, 160, 80, 0.22);
+  --accent: #c9a050;
+  --accent-bright: #e8b86d;
+  --accent-soft: rgba(201, 160, 80, 0.15);
+  --accent-glow: rgba(201, 140, 60, 0.28);
+  --text-primary: #f5f0e8;
+  --text-secondary: #9a9080;
+  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-face), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono-face), "Space Mono", "Courier New", monospace;
+
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  padding: 64px 6vw 96px;
+  box-sizing: border-box;
+  isolation: isolate;
+  overflow-x: hidden;
+}
+
+/* === Ambient atmosphere === */
+.wrapper::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 55% 40% at 50% -6%, rgba(201, 140, 60, 0.22) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 40% at 4% 2%, rgba(201, 140, 60, 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 97% 105%, rgba(140, 70, 20, 0.2) 0%, transparent 58%),
+    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+/* === Film grain (FIXED: z-index 0 aur SVG noise frequency badli) === */
+/* === Film grain (FINAL FIX: Animation hata di, lines ab move nahi karengi) === */
+.wrapper::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  /* Ye naya SVG hai, isme X/Y axis alag hain taaki vertical lines generate hi na hon */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75 0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  /* animation: filmGrainDrift 24s ease-in-out infinite;  <-- YEH LINE COMPLETELY HATA DI HAI, AB LINES MOVE NAHI HONGI */
+}
+
+@keyframes filmGrainDrift {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 6% 4%; }
+}
+
+/* ===========================================================
+   Header
+   =========================================================== */
+.header {
+  text-align: center;
+  margin-bottom: 44px;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  width: 52px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201, 160, 80, 0.55));
+  flex-shrink: 0;
+}
+
+.eyebrow::after {
+  background: linear-gradient(to left, transparent, rgba(201, 160, 80, 0.55));
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 80px rgba(201, 140, 60, 0.35),
+    0 0 30px rgba(201, 140, 60, 0.15),
+    0 2px 12px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+/* thin gold line under title */
+.titleRule {
+  display: block;
+  width: 56px;
+  height: 1.5px;
+  margin: 14px auto 0;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  border-radius: 2px;
+}
+
+/* ===========================================================
+   Featured hero tile
+   =========================================================== */
+.featured {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto 28px;
+  height: 46vh;
+  min-height: 320px;
+  max-height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-gold);
+  isolation: isolate;
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(201, 160, 80, 0.06) inset;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.featured:hover {
+  border-color: rgba(201, 160, 80, 0.55);
+  box-shadow:
+    0 32px 80px -18px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(201, 140, 60, 0.16),
+    0 0 0 1px rgba(201, 160, 80, 0.12) inset;
+}
+
+.featuredImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+  filter: saturate(0.9) brightness(0.88);
+}
+
+.featured:hover .featuredImage {
+  transform: scale(1.05);
+  filter: saturate(1.08) brightness(0.95);
+}
+
+.featuredGrain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.featuredOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px 40px;
+  background: linear-gradient(
+    to top,
+    rgba(10, 7, 3, 0.94) 0%,
+    rgba(10, 7, 3, 0.3) 46%,
+    transparent 78%
+  );
+}
+
+/* gold shimmer line on hover */
+.featuredOverlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201, 160, 80, 0.65), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.featured:hover .featuredOverlay::before {
+  opacity: 1;
+}
+
+.featuredCategory {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.featuredTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 640px) {
+  .featured { height: 38vh; min-height: 240px; }
+  .featuredOverlay { padding: 22px; }
+}
+
+/* ===========================================================
+   Controls bar
+   =========================================================== */
+.controlsBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1280px;
+  margin: 0 auto 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 380px;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-secondary);
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+
+.searchWrap:has(.searchInput:focus) .searchIcon {
+  color: var(--accent);
+}
+
+.searchInput {
+  width: 100%;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 11px 18px 11px 40px;
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(10px);
+}
+
+.searchInput::placeholder { color: var(--text-secondary); }
+
+.searchInput:focus {
+  border-color: rgba(201, 160, 80, 0.6);
+  background: rgba(201, 160, 80, 0.08);
+  box-shadow: 0 0 0 3px rgba(201, 140, 60, 0.1), 0 0 20px rgba(201, 140, 60, 0.08);
+}
+
+.controlsRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sortSelect {
+  background: var(--surface-glass);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 10px 16px;
+  outline: none;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sortSelect:hover,
+.sortSelect:focus {
+  border-color: rgba(201, 160, 80, 0.5);
+  box-shadow: 0 0 16px rgba(201, 140, 60, 0.1);
+}
+
+.iconToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  padding: 9px 16px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.iconToggle:hover {
+  color: var(--text-primary);
+  border-color: rgba(201, 160, 80, 0.45);
+}
+
+.iconToggleActive {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 18px rgba(201, 140, 60, 0.18);
+}
+
+.uploadButton {
+  background: linear-gradient(135deg, rgba(201, 160, 80, 0.25), rgba(201, 160, 80, 0.1));
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent-bright);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.uploadButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.uploadButton:hover {
+  background: linear-gradient(135deg, rgba(201, 160, 80, 0.38), rgba(201, 160, 80, 0.18));
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -8px rgba(201, 140, 60, 0.5), 0 0 0 1px rgba(201, 160, 80, 0.3);
+}
+
+@media (max-width: 640px) {
+  .controlsBar { flex-direction: column; align-items: stretch; }
+  .searchWrap { max-width: none; }
+  .controlsRight { justify-content: center; flex-wrap: wrap; }
+}
+
+/* ===========================================================
+   Drag & drop overlay
+   =========================================================== */
+.dropOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(10, 7, 3, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dropOverlayInner {
+  border: 2px dashed var(--accent);
+  border-radius: 20px;
+  padding: 64px 90px;
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  box-shadow: 0 0 60px rgba(201, 140, 60, 0.15) inset;
+}
+
+.dropPulse {
+  animation: dropPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dropPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(201, 140, 60, 0.1) inset; }
+  50% { box-shadow: 0 0 80px rgba(201, 140, 60, 0.25) inset; }
+}
+
+.dropIcon {
+  display: block;
+  font-size: 2.6rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+/* ===========================================================
+   Filter pills
+   =========================================================== */
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.filterPill {
+  appearance: none;
+  border: 1px solid var(--border-gold);
+  background: var(--surface-glass);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  font-family: var(--font-body);
+  padding: 9px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.filterPill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.filterPill:hover {
+  color: var(--text-primary);
+  border-color: rgba(201, 160, 80, 0.45);
+  background: rgba(201, 160, 80, 0.08);
+  transform: translateY(-1px);
+}
+
+.filterPillActive,
+.filterPillActive:hover {
+  background: linear-gradient(135deg, rgba(201, 160, 80, 0.28), rgba(201, 160, 80, 0.1));
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  font-weight: 600;
+  box-shadow:
+    0 0 22px rgba(201, 140, 60, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(201, 160, 80, 0.15) inset;
+  transform: translateY(-1px);
+}
+
+/* ===========================================================
+   Grid
+   =========================================================== */
+.grid {
+  display: grid;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 760px) {
+  .grid { gap: 14px; }
+  .column { gap: 14px; }
+}
+
+.card {
+  margin: 0;
+  cursor: pointer;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  /* FIX: removed the old fixed/implicit height assumptions that relied on the
+     shimmer skeleton occupying space — min-height ensures the card doesn't
+     collapse to 0 while the image (and its real aspect ratio) hasn't loaded yet. */
+  min-height: 120px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border-gold);
+  background: var(--bg-elevated);
+  isolation: isolate;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.imageFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(201, 160, 80, 0.08);
+  pointer-events: none;
+  z-index: 4;
+  transition: box-shadow 0.35s ease;
+}
+
+.card:hover .imageFrame {
+  border-color: rgba(201, 160, 80, 0.5);
+  box-shadow:
+    0 20px 50px -12px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(201, 140, 60, 0.18);
+  transform: translateY(-4px);
+}
+
+.card:hover .imageFrame::after {
+  box-shadow: inset 0 0 0 1px rgba(201, 160, 80, 0.18);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
+  filter: saturate(0.9) brightness(0.92);
+}
+
+.card:hover .image {
+  transform: scale(1.08) rotate(-0.3deg);
+  filter: saturate(1.1) brightness(1.02);
+}
+
+/* shimmer skeleton — visibility is now controlled in JSX via the `loadedIds`
+   React state (Gallery.tsx), not by a CSS sibling-selector. The old
+   `.image[src] ~ .shimmerSkeleton` rule never matched anything because the
+   skeleton div is rendered BEFORE the <img> in markup, and `~` only selects
+   siblings that come AFTER the reference element. That dead rule has been
+   removed below. */
+.shimmerSkeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 0%,
+    rgba(201, 160, 80, 0.07) 40%,
+    var(--bg-elevated) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+}
+
+.card:hover .grain { opacity: 1; }
+
+/* corner bracket */
+.cornerMark {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  border-top: 1.5px solid var(--accent-bright);
+  border-right: 1.5px solid var(--accent-bright);
+  opacity: 0;
+  transform: translate(-5px, 5px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 5;
+}
+
+.card:hover .cornerMark {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ===========================================================
+   Like button
+   =========================================================== */
+.likeButton {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(10, 7, 3, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.22s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 5;
+}
+
+.card:hover .likeButton,
+.likeButton:has(svg[fill="currentColor"]) {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.likeButton:hover {
+  border-color: #e8576a;
+  color: #e8576a;
+  box-shadow: 0 0 14px rgba(232, 87, 106, 0.3);
+}
+
+.likeButtonFeatured {
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* delete button */
+.deleteButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(10, 7, 3, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(232, 87, 106, 0.3);
+  color: #e8576a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.2s ease, background 0.2s ease;
+  z-index: 5;
+}
+
+.card:hover .deleteButton {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.deleteButton:hover {
+  background: rgba(232, 87, 106, 0.2);
+  box-shadow: 0 0 14px rgba(232, 87, 106, 0.3);
+}
+
+.uploadedBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent-soft);
+  border: 1px solid rgba(201, 160, 80, 0.4);
+  color: var(--accent-bright);
+  padding: 3px 9px;
+  border-radius: 999px;
+  z-index: 5;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px;
+  background: linear-gradient(
+    to top,
+    rgba(10, 7, 3, 0.94) 0%,
+    rgba(10, 7, 3, 0.22) 52%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 4;
+}
+
+.card:hover .overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overlayCategory {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  background: rgba(201, 160, 80, 0.14);
+  border: 1px solid rgba(201, 160, 80, 0.38);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.overlayTitle {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  color: var(--text-primary);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 80px 0;
+  font-size: 0.95rem;
+}
+
+/* ===========================================================
+   Toast
+   =========================================================== */
+.toastContainer {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(30, 22, 10, 0.92);
+  border: 1px solid var(--border-gold);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  font-size: 0.86rem;
+  font-family: var(--font-body);
+  padding: 10px 22px;
+  border-radius: 999px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(201, 140, 60, 0.12);
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   Lightbox
+   =========================================================== */
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 5, 2, 0.94);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.lightboxContent {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightboxImageWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  overflow: hidden;
+  touch-action: none;
+  border-radius: 14px;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 72vh;
+  border-radius: 14px;
+  border: 1px solid var(--border-gold);
+  object-fit: contain;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 32px 80px -20px rgba(0, 0, 0, 0.9);
+}
+
+.lightboxImageHidden { opacity: 0; }
+
+.spinner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--border-glass);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.lightboxCaption {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.lightboxLikeButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-gold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lightboxLikeButton:hover {
+  border-color: #e8576a;
+  color: #e8576a;
+  box-shadow: 0 0 14px rgba(232, 87, 106, 0.25);
+}
+
+.autoplayButton {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-gold);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: auto;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.autoplayButton:hover { color: var(--text-primary); }
+
+.autoplayButtonActive {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 16px rgba(201, 140, 60, 0.2);
+}
+
+.zoomHint {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.lightboxTitle {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.lightboxCounter {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+}
+
+.closeButton {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.25s ease;
+}
+
+.closeButton:hover {
+  color: var(--accent-bright);
+  transform: rotate(90deg);
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(18, 13, 6, 0.7);
+  border: 1px solid var(--border-gold);
+  backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+    box-shadow 0.25s ease, transform 0.25s ease;
+  z-index: 2;
+}
+
+.navButton:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  box-shadow: 0 0 24px rgba(201, 140, 60, 0.22);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.navButtonPrev { left: -10px; }
+.navButtonNext { right: -10px; }
+
+@media (max-width: 700px) {
+  .navButtonPrev { left: 4px; }
+  .navButtonNext { right: 4px; }
+  .navButton { width: 40px; height: 40px; font-size: 1.3rem; }
+  .closeButton { top: -40px; right: 6px; }
+}
+
+/* ===========================================================
+   Reduced motion
+   =========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .image, .overlay, .filterPill, .navButton, .lightboxImage,
+  .shimmerSkeleton, .dropPulse { transition: none; animation: none; }
+  .lightboxBackdrop, .lightboxContent, .spinner, .wrapper::after { animation: none; }
+}
