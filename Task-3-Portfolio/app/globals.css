@@ -1,0 +1,66 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f5f4f0;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #080c0f;
+  --foreground: #fafafa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* ── Display heading font (Sora) ── */
+.font-display {
+  font-family: var(--font-heading), sans-serif;
+}
+
+/* ── Custom Keyframes ── */
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scan {
+  0%   { top: 10%; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 90%; opacity: 0; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 0.1; transform: scale(0.5); }
+}
+
+/* ── Tailwind v4: Custom Utilities ── */
+
+@layer utilities {
+  .animate-scroll  { animation: scroll 20s linear infinite; }
+  .animate-scan    { animation: scan 4s ease-in-out infinite; }
+  .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
+}
